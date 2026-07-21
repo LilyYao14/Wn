@@ -210,7 +210,7 @@
     font-size: 12.5px; color: var(--text-secondary);
     background: var(--surface-card); border: 1px solid var(--line);
     border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow);
-    list-style: disc; margin: 0;
+    list-style: disc; list-style-position: inside; margin: 0;
   }
   .sources li { margin-bottom: 7px; }
   .sources li:last-child { margin-bottom: 0; }
@@ -220,10 +220,10 @@
     .hero h1 { font-size: 24px; }
     .hero-facts { grid-template-columns: repeat(2, 1fr); }
     .commute-grid { grid-template-columns: repeat(2, 1fr); }
-    .photo-row { grid-template-columns: repeat(3, 1fr); }
-    .photo-fig img { height: 84px; }
-    .photo-fig .cap { font-size: 9px; padding: 2px 7px; }
-    table { font-size: 11.5px; }
+    .photo-row { grid-template-columns: 1fr; gap: 10px; }
+    .photo-fig img { height: 200px; }
+    .photo-fig .cap { font-size: 11px; padding: 3px 9px; }
+    table { font-size: 11.5px; min-width: 760px; }
     .top-pick { flex-direction: column; align-items: flex-start; }
     .hotel-meta, .chip-row { margin-left: 0; }
   }
