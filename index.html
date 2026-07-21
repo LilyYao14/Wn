@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中山出差酒店比較 · BCG X Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Martel+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --surface-page:   #232326;
+    --surface-card:   #2d2d30;
+    --text-primary:   #ffffff;
+    --text-secondary: #A5A5A9;
+    --text-muted:     #67676B;
+    --line:           rgba(0, 255, 204, 0.14);
+    --accent:         #00FFCC;
+    --accent-soft:    rgba(0, 255, 204, 0.08);
+    --good:           #00FFCC;
+    --good-soft:      rgba(0, 255, 204, 0.12);
+    --cobalt:         #4928FF;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 6px 18px rgba(0,0,0,0.35);
+    --font-display: "Bitter", "Noto Sans TC", serif;
+    --font-mono: "Martel Sans", "Noto Sans TC", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: "Martel Sans", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px 90px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: linear-gradient(135deg, #232326 0%, #2B0B9E 55%, #00A887 100%);
+    color: #fff;
+    padding: 56px 20px 44px;
+    margin-bottom: 36px;
+  }
+  .hero-inner { max-width: 980px; margin: 0 auto; }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .hero h1 { font-family: var(--font-display); font-size: 30px; margin: 0 0 6px; font-weight: 700; }
+  .hero-sub { color: #d7e6fa; font-size: 14px; margin-bottom: 26px; }
+  .hero-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .hero-fact {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,255,204,0.18);
+    border-radius: 4px;
+    padding: 12px 14px;
+  }
+  .hero-fact .k { font-size: 11.5px; color: var(--accent); margin-bottom: 3px; }
+  .hero-fact .v { font-size: 14px; font-weight: 600; }
+
+  /* ---------- Top pick banner ---------- */
+  .top-pick {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--surface-card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--good);
+    border-radius: 4px;
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+  }
+  .top-pick .badge {
+    flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%;
+    background: var(--good); color: var(--surface-page);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 17px; font-weight: 700;
+  }
+  .top-pick .txt { font-size: 14.5px; color: var(--text-secondary); }
+  .top-pick .txt b { color: var(--good); }
+  .top-pick .txt .headline { font-size: 16px; color: var(--text-primary); font-weight: 700; margin-bottom: 3px; }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    margin: 52px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  /* ---------- Commute grid (6 cells) ---------- */
+  .commute-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .commute-tile {
+    background: var(--surface-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+  }
+  .commute-tile.best {
+    border-color: var(--good);
+    box-shadow: 0 0 0 3px var(--good-soft), var(--shadow);
+  }
+  .commute-tile .row1 { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .commute-tile .rank {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .commute-tile.best .rank { background: var(--good); color: var(--surface-page); }
+  .commute-tile .name { font-size: 12.5px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .commute-tile .time { font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--accent); }
+  .commute-tile.best .time { color: var(--good); }
+  .commute-tile .time .unit { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-left: 2px; }
+  .commute-tile .best-tag {
+    display: inline-block; margin-top: 6px;
+    font-size: 10.5px; font-weight: 700; color: var(--surface-page);
+    background: var(--good); padding: 2px 8px; border-radius: 999px;
+  }
+  .commute-note { font-size: 12.5px; color: var(--text-muted); margin: -26px 0 40px; }
+
+  /* ---------- Table ---------- */
+  .table-scroll { overflow-x: auto; border-radius: 4px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface-card); }
+  th, td { border-bottom: 1px solid var(--line); padding: 11px 12px; text-align: left; vertical-align: top; }
+  th { background: #2B0B9E; color: #fff; font-weight: 600; white-space: nowrap; font-size: 12px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(0,255,204,0.05); }
+  td { color: var(--text-secondary); }
+  td.rank { font-family: var(--font-mono); font-weight: 700; text-align: center; color: var(--accent); }
+  td.commute { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+  td.commute.best { color: var(--good); }
+  td.price { font-family: var(--font-mono); color: var(--text-primary); }
+
+  .transport-note {
+    background: var(--surface-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 15px 18px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-top: 20px;
+  }
+
+  /* ---------- Hotel cards ---------- */
+  .hotel-card {
+    background: var(--surface-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    padding: 20px 22px 22px;
+    margin-bottom: 24px;
+  }
+  .hotel-card.is-top { border: 1px solid var(--good); box-shadow: 0 0 0 3px var(--good-soft), var(--shadow); }
+  .hotel-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .hotel-title { display: flex; align-items: center; gap: 10px; }
+  .hotel-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #3a3a3e; color: #fff;
+    font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; flex-shrink: 0;
+  }
+  .hotel-num.top { background: var(--good); color: var(--surface-page); }
+  .hotel-title h3 { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin: 0; color: var(--text-primary); }
+  .pick-tag {
+    background: var(--good); color: var(--surface-page); font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .hotel-meta { color: var(--text-muted); font-size: 12.5px; margin: 2px 0 14px 36px; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 14px 36px; }
+  .chip {
+    font-size: 11.5px; color: var(--text-secondary);
+    background: var(--surface-page); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 12px;
+  }
+  .chip b { color: var(--text-primary); font-family: var(--font-mono); }
+  .chip.hl { background: var(--good-soft); border-color: rgba(0,255,204,0.4); color: var(--good); }
+  .chip.hl b { color: var(--good); }
+
+  .photo-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .photo-fig { position: relative; }
+  .photo-fig img {
+    width: 100%; height: 168px; object-fit: cover;
+    border-radius: 4px; border: 1px solid var(--line);
+    background: var(--surface-page); display: block;
+  }
+  .photo-fig .cap {
+    position: absolute; left: 8px; bottom: 8px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em;
+    color: #fff; background: rgba(0,0,0,0.6);
+    padding: 3px 9px; border-radius: 999px;
+    backdrop-filter: blur(2px);
+  }
+  .hotel-desc { font-size: 14px; color: var(--text-secondary); }
+  .hotel-desc b { color: var(--text-primary); }
+
+  .sources {
+    font-size: 12.5px; color: var(--text-secondary);
+    background: var(--surface-card); border: 1px solid var(--line);
+    border-radius: 4px; padding: 16px 20px; box-shadow: var(--shadow);
+    list-style: disc; margin: 0;
+  }
+  .sources li { margin-bottom: 7px; }
+  .sources li:last-child { margin-bottom: 0; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 40px 16px 32px; }
+    .hero h1 { font-size: 24px; }
+    .hero-facts { grid-template-columns: repeat(2, 1fr); }
+    .commute-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-row { grid-template-columns: repeat(3, 1fr); }
+    .photo-fig img { height: 84px; }
+    .photo-fig .cap { font-size: 9px; padding: 2px 7px; }
+    table { font-size: 11.5px; }
+    .top-pick { flex-direction: column; align-items: flex-start; }
+    .hotel-meta, .chip-row { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">中山出差 · 住宿選點</div>
+      <h1>中山出差酒店比較</h1>
+      <div class="hero-sub">依「酒店 → 工廠」通勤時間排序 · 更新於 2026-07</div>
+      <div class="hero-facts">
+        <div class="hero-fact"><div class="k">目的地</div><div class="v">中山火炬高新区</div></div>
+        <div class="hero-fact"><div class="k">工廠位置</div><div class="v">居安一街 × 居安五街口</div></div>
+        <div class="hero-fact"><div class="k">預算</div><div class="v">CNY 750 / 晚</div></div>
+        <div class="hero-fact"><div class="k">比較對象</div><div class="v">6 家商旅优选酒店</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="top-pick">
+      <div class="badge">01</div>
+      <div class="txt">
+        <div class="headline">中山火炬高新区皇冠假日酒店 — 綜合最推薦</div>
+        同街區、工廠通勤僅 <b>8–12 分</b>,遠勝其他 5 家;2025/10 開業、目前約 9 個月,攜程 688 則評論 <b>4.7/5</b> 口碑正面,也有行政酒廊。次佳選擇是通勤 25–30 分、成立較久的 <b>#2 保利艾美</b>(價格也最低)。
+      </div>
+    </div>
+
+    <h2>酒店 → 工廠通勤時間</h2>
+    <div class="commute-grid">
+      <div class="commute-tile best">
+        <div class="row1"><span class="rank">01</span><span class="name">火炬高新区皇冠假日</span></div>
+        <div class="time">8–12<span class="unit">分</span></div>
+        <div class="best-tag">最快</div>
+      </div>
+      <div class="commute-tile">
+        <div class="row1"><span class="rank">02</span><span class="name">保利艾美</span></div>
+        <div class="time">25–30<span class="unit">分</span></div>
+      </div>
+      <div class="commute-tile">
+        <div class="row1"><span class="rank">03</span><span class="name">利和希尔顿</span></div>
+        <div class="time">30–35<span class="unit">分</span></div>
+      </div>
+      <div class="commute-tile">
+        <div class="row1"><span class="rank">04</span><span class="name">喜来登</span></div>
+        <div class="time">35–40<span class="unit">分</span></div>
+      </div>
+      <div class="commute-tile">
+        <div class="row1"><span class="rank">05</span><span class="name">永安新城皇冠假日</span></div>
+        <div class="time">40–45<span class="unit">分</span></div>
+      </div>
+      <div class="commute-tile">
+        <div class="row1"><span class="rank">06</span><span class="name">利和威斯汀(古镇镇)</span></div>
+        <div class="time">55–70+<span class="unit">分</span></div>
+      </div>
+    </div>
+    <div class="commute-note">六格已依通勤時間由快到慢排列(左至右、上至下)。數字為區間估計,詳見文末資料來源與限制。</div>
+
+    <h2>總覽表</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>酒店</th><th>集團/會員計畫</th><th>房價(起)</th>
+            <th>深圳機場→酒店</th><th>酒店→工廠</th><th>行政酒廊</th><th>開業/整修</th><th>基礎房型坪數</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rank">1</td>
+            <td>中山火炬高新区皇冠假日</td>
+            <td>IHG One Rewards (Crowne Plaza)</td>
+            <td class="price">¥586</td>
+            <td class="price">~35–45分</td>
+            <td class="commute best">8–12分</td>
+            <td>有,「雲端行政酒廊」,下午茶14:00–16:00、Happy Hour 17:30–19:30,含會議室使用+優先check-in</td>
+            <td>2025/10/28開業(至今約9個月)</td>
+            <td>標準房42㎡(步入式淋浴+迷你吧)</td>
+          </tr>
+          <tr>
+            <td class="rank">2</td>
+            <td>中山保利艾美 (Le Méridien Poly)</td>
+            <td>Marriott Bonvoy (Le Méridien)</td>
+            <td class="price">¥483</td>
+            <td class="price">~60分</td>
+            <td class="commute">25–30分</td>
+            <td>有,限行政房型/套房及Bonvoy高階會籍,評論提到早餐選擇多、景觀不錯</td>
+            <td>2018年開業</td>
+            <td>標準房約44㎡,家庭套房96㎡</td>
+          </tr>
+          <tr>
+            <td class="rank">3</td>
+            <td>中山利和希尔顿</td>
+            <td>Hilton Honors</td>
+            <td class="price">¥588</td>
+            <td class="price">~65–80分</td>
+            <td class="commute">30–35分</td>
+            <td>有,"T Lounge" 1F,每日11:00–23:00,咖啡茶點+酒</td>
+            <td>2012年開業</td>
+            <td>標準房約39㎡,行政套房90㎡,頂樓SPA套房138㎡</td>
+          </tr>
+          <tr>
+            <td class="rank">4</td>
+            <td>中山喜来登</td>
+            <td>Marriott Bonvoy (Sheraton)</td>
+            <td class="price">¥610</td>
+            <td class="price">~65–80分</td>
+            <td class="commute">35–40分</td>
+            <td>有,27樓Club Lounge,早餐buffet+咖啡茶+Happy Hour+晚間點心,另有每日1小時行政會議室使用</td>
+            <td>2010年開業</td>
+            <td>標準房約40㎡,豪華房/套房85㎡</td>
+          </tr>
+          <tr>
+            <td class="rank">5</td>
+            <td>中山永安新城皇冠假日</td>
+            <td>IHG One Rewards (Crowne Plaza)</td>
+            <td class="price">¥467</td>
+            <td class="price">~70–85分</td>
+            <td class="commute">40–45分</td>
+            <td>IHG官網/百度百科(近期更新)都仍列為現行設施:Club Floor行政樓層+行政酒廊(晚間酒水點心),另有Atrium Lounge週二至週日live band。(酒店電話:0760-8991 6888)</td>
+            <td>2011年開業,2019年整修</td>
+            <td>多為套房類~60㎡,基礎房型未明確區分</td>
+          </tr>
+          <tr>
+            <td class="rank">6</td>
+            <td>中山利和威斯汀 (古镇镇)</td>
+            <td>Marriott Bonvoy (Westin)</td>
+            <td class="price">¥635</td>
+            <td class="price">~90–110分</td>
+            <td class="commute">55–70分以上</td>
+            <td>有,57樓,手沖咖啡+江景</td>
+            <td>2019年Q3開業</td>
+            <td>標準房約44㎡,行政親子房78㎡,家庭套房120㎡</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="transport-note">
+      <b>深圳機場→中山交通:</b>2024年6月深中通道通車後,機場有直達「深中机场快线」巴士,直接開到中山博覽中心(緊鄰#1酒店),約50分鐘、¥60–78單程,班次頻繁(約每30–40分一班)。自駕/包車走深中通道時間相近,行李多時更方便。深圳機場沒有到中山的直達渡輪。
+    </div>
+
+    <h2>各酒店詳情</h2>
+
+    <div class="hotel-card is-top">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num top">01</span><h3>中山火炬高新区皇冠假日酒店</h3></div>
+        <span class="pick-tag">綜合最推薦</span>
+      </div>
+      <div class="hotel-meta">Crowne Plaza Zhongshan Torch Hi-Tech Zone · 火炬高新区会展东路14号</div>
+      <div class="chip-row">
+        <span class="chip">IHG One Rewards</span>
+        <span class="chip"><b>¥586</b> 起</span>
+        <span class="chip hl">工廠 <b>8–12分</b></span>
+        <span class="chip">2025/10開業</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc5e12000ovtf5j3FC3B_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc3d12000ovthxlq59D6_R_960_660_R5_D.jpg" alt="泳池露台"><span class="cap">泳池露台</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc6q12000ovtd2jlE62A_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">是火炬高新区第一家五星酒店,1,300㎡活動空間、泳池、健身房、SPA。緊鄰深中通道落地點(中山博覽中心),深圳機場車程約35–45分——六家中最快;工廠車程僅<b>8–12分</b>(同一街區)——<b>通勤壓倒性優勢</b>。標準房「國王標準房」42㎡,含步入式淋浴與豐富迷你吧(來源:官方App房型頁)。1樓Lobby Lounge與ZHEN All Day Dining為主要餐飲設施,早餐於主餐廳供應;另有「雲端行政酒廊」,提供下午茶(14:00–16:00)、Happy Hour(17:30–19:30)、會議室使用與優先check-in等禮遇。開業至今(2026/7)約9個月,仍屬新酒店,已累積攜程688則評論、4.7/5「超棒」,住客特別稱讚周邊環境安靜,目前口碑正面。</div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num">02</span><h3>中山保利艾美酒店</h3></div>
+      </div>
+      <div class="hotel-meta">Le Méridien Zhongshan Poly · 港口大道21号(近石岐区)</div>
+      <div class="chip-row">
+        <span class="chip">Marriott Bonvoy</span>
+        <span class="chip hl"><b>¥483</b> 起 · 六家最低</span>
+        <span class="chip">工廠 <b>25–30分</b></span>
+        <span class="chip">2018年開業</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/200a190000017zmpaD8AA_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/200d1a00000193bwj2CF2_R_960_660_R5_D.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/200k1a000001990740E5F_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">SPA、健身房、室內恆溫泳池、1,100㎡宴會空間、3間餐廳。標準房(「森林氧吧房」)約44㎡,家庭套房可達96㎡。行政酒廊限行政房型/套房及Bonvoy高階會籍,住客評論提到早餐選擇多、景觀不錯。深圳機場車程約60分(官方標示~57.5km),工廠車程約25–30分——<b>六家中通勤第二佳,且價格最低</b>。</div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num">03</span><h3>中山利和希尔顿酒店</h3></div>
+      </div>
+      <div class="hotel-meta">Hilton Zhongshan Downtown · 东区中山三路16号</div>
+      <div class="chip-row">
+        <span class="chip">Hilton Honors</span>
+        <span class="chip"><b>¥588</b> 起</span>
+        <span class="chip">工廠 <b>30–35分</b></span>
+        <span class="chip">2012年開業</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0226p1200084akh8wFBCF_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/20050500000013prqAEAA_R_960_660_R5_D.jpg" alt="大廳/酒廊"><span class="cap">酒廊</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0583l12000sphwrv3AEAD_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">連通利和廣場商場,25米室內泳池、網球場、健身房、SPA、4間餐廳酒吧。行政酒廊為"T Lounge",1樓,每日11:00–23:00供應咖啡茶點與酒類。標準房約39㎡,行政套房90㎡,頂樓SPA套房138㎡。深圳機場車程約65–80分,工廠車程約30–35分(東區,介於老城與火炬區之間)。</div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num">04</span><h3>中山喜来登酒店</h3></div>
+      </div>
+      <div class="hotel-meta">Sheraton Zhongshan Hotel · 西堤路28号</div>
+      <div class="chip-row">
+        <span class="chip">Marriott Bonvoy</span>
+        <span class="chip"><b>¥610</b> 起</span>
+        <span class="chip">工廠 <b>35–40分</b></span>
+        <span class="chip">2010年開業</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc3b12000ax8kia5E988_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc2w12000ax97fkn9922_R_960_660_R5_D.jpg" alt="餐廳/公共空間"><span class="cap">餐廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc1k12000b1ae0a6D6C0_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">位於老城區岐江河畔,2間餐廳+大堂酒吧,約2,250㎡會議空間。標準房約40㎡,豪華房/套房85㎡。行政酒廊在27樓,提供早餐buffet、咖啡茶、Happy Hour、晚間點心,以及每日1小時行政會議室使用,適用於行政房型/套房或Bonvoy高階會籍。深圳機場車程約65–80分,工廠車程約35–40分(需穿越老城區石岐,車流較大)。</div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num">05</span><h3>中山永安新城皇冠假日酒店</h3></div>
+      </div>
+      <div class="hotel-meta">Crowne Plaza Zhongshan Wing On City · 南区兴南路8号</div>
+      <div class="chip-row">
+        <span class="chip">IHG One Rewards</span>
+        <span class="chip hl"><b>¥467</b> 起 · 六家最低</span>
+        <span class="chip">工廠 <b>40–45分</b></span>
+        <span class="chip">2011年開業 · 六家最老</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/20050c0000006pn3rA066_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0224h120008egyw46A05B_R_960_660_R5_D.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/200m1a0000018hoh1B007_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">2019年整修,381間房,是六家中最老的物件。20樓有Club Floor行政樓層+行政酒廊(提供晚間酒水點心),另有Atrium Lounge週二至週日live band。房型多為套房類~60㎡。深圳機場車程約70–85分,工廠車程約40–45分(南區,是六家中離工廠最遠、除古镇外)。</div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row">
+        <div class="hotel-title"><span class="hotel-num">06</span><h3>中山利和威斯汀酒店</h3></div>
+      </div>
+      <div class="hotel-meta">The Westin Zhongshan Guzhen · 古镇镇同兴路98号利和中心39-60层</div>
+      <div class="chip-row">
+        <span class="chip">Marriott Bonvoy</span>
+        <span class="chip"><b>¥635</b> 起 · 六家最高</span>
+        <span class="chip">工廠 <b>55–70分以上</b></span>
+        <span class="chip">2019年開業 · 房型最大最新</span>
+      </div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0203z120009z3p1xkEB6C_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc5r12000arbwglf6EDC_R_960_660_R5_D.jpg" alt="大廳/酒廊"><span class="cap">酒廊</span></div>
+        <div class="photo-fig"><img src="https://aw-d.tripcdn.com/images/1mc1t12000cnguy75C131_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <div class="hotel-desc">61層新塔樓,250間房,位於「燈飾之都」古镇鎮的商業綜合體內。行政酒廊在57樓,提供手沖咖啡與江景。標準房約44㎡,行政親子房78㎡,家庭套房120㎡——<b>六家中房型最大最新</b>。但深圳機場車程約90–110分,<b>工廠車程55–70分以上</b>(古镇鎮是中山西側另一個鎮,深中通道對此路段幫助有限)——<b>不建議作為日常通勤住宿</b>。</div>
+    </div>
+
+    <h2>資料來源與限制</h2>
+    <ul class="sources">
+      <li>集團/開業年份/坪數等資料主要來自 Marriott/Hilton/IHG 官網、Baidu Baike、trip.com/Ctrip 房型頁面。</li>
+      <li>通勤時間僅用OSM路網(OSRM)估算後套用尖峰係數,<b>單一來源,未與高德/百度地圖的即時路況交叉驗證</b>,建議出發前再核對一次,尤其#2–4之間差距不算大。</li>
+      <li>#5 行政酒廊依IHG官網/百度百科仍列為現行設施,「已停用」一說追查後查無實據、判斷是誤傳;#1 行政酒廊早餐是否含在內未查到。兩家都建議訂房時再確認一次細節。</li>
+      <li>圖片來源:trip.com CDN(官網圖床有防盜鏈,故改用此來源),每家統一抓外觀+公共空間+客房3張、統一960×660尺寸。#4喜来登、#1火炬皇冠假日目前該平台上沒有大廳實拍,改用餐廳/泳池露台照代替。</li>
+    </ul>
+
+  </div>
+</body>
+</html>
