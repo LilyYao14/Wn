@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>河內出差酒店比較</title>
+<style>
+  :root {
+    --surface-page:   #f6f8fa;
+    --surface-card:   #ffffff;
+    --text-primary:   #14213d;
+    --text-secondary: #52607a;
+    --text-muted:     #8891a3;
+    --line:           #e3e7ee;
+    --accent:         #2a6fd6;
+    --accent-soft:    #eaf1fc;
+    --good:           #1a8f4c;
+    --good-soft:      #e8f7ee;
+    --warn: #b5760a;
+    --warn-soft: #fdf1de;
+    --danger: #c23b3b;
+    --danger-soft: #fbe9e9;
+    --shadow: 0 1px 2px rgba(20,33,61,0.04), 0 6px 18px rgba(20,33,61,0.06);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .hero { background: linear-gradient(135deg, #16324f 0%, #1c4d8a 55%, #2a6fd6 100%); color: #fff; padding: 56px 20px 44px; margin-bottom: 36px; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #bcd6f7; font-weight: 600; margin-bottom: 10px; }
+  .hero h1 { font-size: 30px; margin: 0 0 6px; font-weight: 700; }
+  .hero-sub { color: #d7e6fa; font-size: 14px; margin-bottom: 26px; }
+  .hero-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .hero-fact { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: 12px; padding: 12px 14px; }
+  .hero-fact .k { font-size: 11.5px; color: #bcd6f7; margin-bottom: 3px; }
+  .hero-fact .v { font-size: 14px; font-weight: 600; }
+
+  .alert { display: flex; gap: 16px; background: var(--danger-soft); border: 1px solid #f0c3c3; border-left: 4px solid var(--danger); border-radius: 16px; padding: 18px 22px; margin-bottom: 24px; }
+  .alert .icon { font-size: 20px; }
+  .alert .txt { font-size: 13.5px; color: var(--text-secondary); }
+  .alert .txt b { color: var(--danger); }
+  .alert .txt .headline { font-size: 15px; color: var(--text-primary); font-weight: 700; margin-bottom: 4px; }
+
+  .top-pick { display: flex; align-items: center; gap: 18px; background: var(--surface-card); border: 1px solid var(--line); border-left: 4px solid var(--good); border-radius: 16px; padding: 18px 22px; box-shadow: var(--shadow); margin-bottom: 40px; }
+  .top-pick .badge { flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%; background: var(--good); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; text-align: center; }
+  .top-pick .txt { font-size: 14.5px; color: var(--text-secondary); }
+  .top-pick .txt b { color: var(--good); }
+  .top-pick .txt .headline { font-size: 16px; color: var(--text-primary); font-weight: 700; margin-bottom: 3px; }
+
+  h2 { font-size: 19px; margin: 52px 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-weight: 700; }
+  h2:first-of-type { margin-top: 0; }
+  h3.chain-head {
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    margin: 36px 0 14px; padding: 8px 14px; background: var(--accent-soft);
+    border-radius: 10px; display: inline-block;
+  }
+  h3.chain-head.independent { color: var(--text-muted); background: var(--surface-page); border: 1px dashed var(--line); }
+
+  .table-scroll { overflow-x: auto; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--surface-card); }
+  th, td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+  th { background: #16324f; color: #fff; font-weight: 600; white-space: nowrap; font-size: 11px; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--accent-soft); }
+  td.rank { font-weight: 700; text-align: center; color: var(--accent); }
+  td.commute .peak { color: var(--danger); font-weight: 700; display: block; }
+  td.commute .offpeak { color: var(--text-muted); font-size: 11px; }
+  .group-row td { background: #eef2f8; font-weight: 700; color: var(--accent); font-size: 11.5px; padding: 6px 10px; }
+
+  .transport-note { background: var(--surface-card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 18px; font-size: 13.5px; color: var(--text-secondary); margin-top: 20px; }
+
+  .hotel-card { background: var(--surface-card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 20px 22px 22px; margin-bottom: 20px; }
+  .hotel-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .hotel-title { display: flex; align-items: center; gap: 10px; }
+  .hotel-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--text-primary); color: #fff; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+  .hotel-title h4 { font-size: 16.5px; margin: 0; }
+  .hotel-meta { color: var(--text-muted); font-size: 12.5px; margin: 2px 0 14px 36px; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 14px 36px; }
+  .chip { font-size: 11.5px; color: var(--text-secondary); background: var(--surface-page); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+  .chip b { color: var(--text-primary); }
+  .chip.hl { background: var(--good-soft); border-color: #b9e6cc; color: var(--good); }
+  .chip.hl b { color: var(--good); }
+  .chip.warn { background: var(--warn-soft); border-color: #f0d9ad; color: var(--warn); }
+  .chip.danger { background: var(--danger-soft); border-color: #f0c3c3; color: var(--danger); }
+
+  .photo-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .photo-fig { position: relative; }
+  .photo-fig img { width: 100%; height: 158px; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-page); display: block; }
+  .photo-fig .cap { position: absolute; left: 8px; bottom: 8px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.03em; color: #fff; background: rgba(20,33,61,0.65); padding: 3px 9px; border-radius: 999px; }
+  .hotel-desc { font-size: 13.5px; color: var(--text-secondary); margin: 0; padding-left: 20px; }
+  .hotel-desc li { margin-bottom: 5px; }
+  .hotel-desc b { color: var(--text-primary); }
+
+  .excl-table th { background: #6b5a1a; }
+  .excl-table td:first-child { font-weight: 600; white-space: nowrap; }
+
+  .sources { font-size: 12.5px; color: var(--text-secondary); background: var(--surface-card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 20px; box-shadow: var(--shadow); list-style: disc; margin: 0; }
+  .sources li { margin-bottom: 8px; }
+  .sources li:last-child { margin-bottom: 0; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 40px 16px 32px; }
+    .hero h1 { font-size: 24px; }
+    .hero-facts { grid-template-columns: repeat(2, 1fr); }
+    .photo-row { grid-template-columns: repeat(3, 1fr); }
+    .photo-fig img { height: 78px; }
+    table { font-size: 10.5px; }
+    .top-pick, .alert { flex-direction: column; align-items: flex-start; }
+    .hotel-meta, .chip-row { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">河內出差 · 住宿選點</div>
+      <h1>河內出差酒店比較</h1>
+      <div class="hero-sub">依集團優先排序,集團內依「飯店→工廠」通勤時間 · 更新於 2026-07</div>
+      <div class="hero-facts">
+        <div class="hero-fact"><div class="k">目的地</div><div class="v">Wistron Vietnam（Hà Nam廠）</div></div>
+        <div class="hero-fact"><div class="k">住宿區域</div><div class="v">河內市區</div></div>
+        <div class="hero-fact"><div class="k">預算</div><div class="v">USD 400 / 晚</div></div>
+        <div class="hero-fact"><div class="k">比較對象</div><div class="v">17 家河內市區酒店</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="alert">
+      <div class="icon">⚠️</div>
+      <div class="txt">
+        <div class="headline">早晨尖峰時段修正:實際通勤比離峰數字多花25–40分鐘</div>
+        通往工廠的法雲–求艽高速公路實際車流量已達設計容量的154%,河內市區晨間尖峰(7:30–9:30)均速僅為離峰的1/3左右。<b>早上9:30要到工廠,請以表格中的「尖峰」欄位規劃行程,不要用離峰的40幾分鐘</b>。標✓的5家(#1–#5)是使用者親自用Google地圖查到的真實區間(55–110分不等,依飯店而異);其餘12家是依區域外推的估計值(約75–79分),實際可能更寬,建議訂房前用Google Maps/Grab在預計出發時段當場核對。
+      </div>
+    </div>
+
+    <div class="top-pick">
+      <div class="badge">依集團<br>優先</div>
+      <div class="txt">
+        <div class="headline">集團優先原則下的建議</div>
+        若鎖定 <b>Marriott</b>:#1 JW Marriott(Google地圖實測55–90分,建議08:00出發)是系統內最好選擇。若可接受其他集團,<b>Accor</b> 旗下 #6 Novotel Thai Ha、#7 Mövenpick Centre(外推估計約76分鐘)通勤更快、價格遠低於JW Marriott。西湖區三家(#3喜來登西湖、#5洲際西湖、#14泛太平洋)離機場最近但工廠通勤是後段班(#3、#5實測60–110分,建議07:40出發)。
+      </div>
+    </div>
+
+    <h2>總覽表(依集團排序,集團內依飯店→工廠通勤時間)</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>#</th><th>酒店</th><th>區域</th><th>房價(起)</th><th>飯店→機場</th><th>飯店→工廠(離峰/尖峰)</th><th>飯店→市中心</th><th>行政酒廊</th><th>開業</th><th>基礎房型</th></tr></thead>
+        <tbody>
+          <tr class="group-row"><td colspan="10">Marriott Bonvoy</td></tr>
+          <tr><td class="rank">1</td><td>JW Marriott Hotel Hanoi</td><td>Nam Từ Liêm</td><td>US$200–265+起</td><td>41分/28.2km</td><td class="commute"><span class="offpeak">43分離峰/49.1km</span><span class="peak">55–90分尖峰✓</span></td><td>13分/10.4km</td><td>6F行政酒廊</td><td>2013</td><td>Deluxe 48㎡(最大)</td></tr>
+          <tr><td class="rank">2</td><td>Sheraton Hanoi West</td><td>Nam Từ Liêm</td><td>US$89–136起</td><td>41分/26.8km</td><td class="commute"><span class="offpeak">46分離峰/52.4km</span><span class="peak">60–110分尖峰✓</span></td><td>15分/11.2km(最遠)</td><td>24F行政酒廊</td><td>2020</td><td>約34㎡</td></tr>
+          <tr><td class="rank">3</td><td>Sheraton Hanoi Hotel(西湖)</td><td>Tây Hồ</td><td>US$136–274起</td><td>33分/22.0km</td><td class="commute"><span class="offpeak">48分離峰/52.3km</span><span class="peak">60–110分尖峰✓</span></td><td>7分/5.6km</td><td>17F Sheraton Club</td><td>2004</td><td>Standard 37㎡</td></tr>
+          <tr class="group-row"><td colspan="10">IHG One Rewards</td></tr>
+          <tr><td class="rank">4</td><td>InterContinental Landmark72</td><td>Cầu Giấy</td><td>US$103起</td><td>38分/26.8km</td><td class="commute"><span class="offpeak">44分離峰/49.7km</span><span class="peak">55–100分尖峰✓</span></td><td>13分/11.0km</td><td>71F(東南亞最大)</td><td>2017</td><td>Classic 46㎡</td></tr>
+          <tr><td class="rank">5</td><td>InterContinental Westlake</td><td>Tây Hồ</td><td>US$104起</td><td>32分/21.7km</td><td class="commute"><span class="offpeak">47分離峰/52.0km</span><span class="peak">60–110分尖峰✓</span></td><td>7分/5.3km</td><td>地面樓層</td><td>2007</td><td>Classic 43㎡</td></tr>
+          <tr class="group-row"><td colspan="10">Accor（Sofitel Legend / MGallery / Grand Mercure / Novotel / Mövenpick / Pullman）</td></tr>
+          <tr><td class="rank">6</td><td>Novotel Hanoi Thai Ha</td><td>Đống Đa</td><td>US$81–83起</td><td>39分/27.9km</td><td class="commute"><span class="offpeak">41分離峰/47.0km</span><span class="peak">~76分尖峰</span></td><td>7分/5.0km</td><td>26F Premier Lounge</td><td>2020</td><td>Superior 31㎡</td></tr>
+          <tr><td class="rank">7</td><td>Mövenpick Hotel Hanoi Centre</td><td>Cửa Nam</td><td>US$51–70起</td><td>42分/26.7km</td><td class="commute"><span class="offpeak">41分離峰/47.5km</span><span class="peak">~76分尖峰</span></td><td>3分/1.6km</td><td>4F行政酒廊</td><td>1997</td><td>Classic 32㎡</td></tr>
+          <tr><td class="rank">8</td><td>Grand Mercure Hanoi</td><td>Đống Đa</td><td>~US$100起</td><td>27分/27.2km</td><td class="commute"><span class="offpeak">42分離峰/48.6km</span><span class="peak">~77分尖峰</span></td><td>5分/3.0km</td><td>15F行政酒廊</td><td>2023</td><td>Deluxe 27㎡</td></tr>
+          <tr><td class="rank">9</td><td>Hotel de l'Opera - MGallery</td><td>Hoàn Kiếm</td><td>US$105起</td><td>40分/26.9km</td><td class="commute"><span class="offpeak">43分離峰/48.4km</span><span class="peak">~78分尖峰</span></td><td>1分/0.7km(最近)</td><td>無確認的酒廊</td><td>2011</td><td>Deluxe 30㎡</td></tr>
+          <tr><td class="rank">10</td><td>Sofitel Legend Metropole</td><td>Hoàn Kiếm</td><td>US$193起</td><td>27分/27.0km</td><td class="commute"><span class="offpeak">43分離峰/48.5km</span><span class="peak">~78分尖峰</span></td><td>1分/0.7km(最近)</td><td>7F Opera Wing</td><td>1901</td><td>Luxury 32㎡</td></tr>
+          <tr><td class="rank">11</td><td>Pullman Hanoi</td><td>Đống Đa</td><td>US$76起</td><td>26分/26.4km</td><td class="commute"><span class="offpeak">44分離峰/49.2km</span><span class="peak">~79分尖峰</span></td><td>6分/3.6km</td><td>10F行政酒廊</td><td>1997</td><td>Superior 32㎡</td></tr>
+          <tr class="group-row"><td colspan="10">Lotte Hotels &amp; Resorts</td></tr>
+          <tr><td class="rank">12</td><td>Lotte Hotel Hanoi</td><td>Ba Đình</td><td>~US$87起</td><td>35分/24.6km</td><td class="commute"><span class="offpeak">44分離峰/50.6km</span><span class="peak">~79分尖峰</span></td><td>8分/5.1km</td><td>約59F Club Lounge</td><td>2014</td><td>Deluxe 42–44㎡</td></tr>
+          <tr class="group-row"><td colspan="10">Wyndham（Dolce）</td></tr>
+          <tr><td class="rank">13</td><td>Dolce by Wyndham Golden Lake</td><td>Ba Đình</td><td>US$73–74起</td><td>38分/26.3km</td><td class="commute"><span class="offpeak">44分離峰/49.4km</span><span class="peak">~79分尖峰</span></td><td>7分/4.3km</td><td>12F行政酒廊</td><td>~2022</td><td>Golden Deluxe 45–48㎡</td></tr>
+          <tr class="group-row"><td colspan="10">Pan Pacific Hotels Group</td></tr>
+          <tr><td class="rank">14</td><td>Pan Pacific Hanoi</td><td>Tây Hồ</td><td>US$85起</td><td>23分/22.9km(最快)</td><td class="commute"><span class="offpeak">45分離峰/51.1km</span><span class="peak">~85分尖峰</span></td><td>5分/3.8km</td><td>17F Pacific Club</td><td>1998</td><td>Deluxe 35㎡</td></tr>
+          <tr class="group-row"><td colspan="10">Meliá Hotels International</td></tr>
+          <tr><td class="rank">15</td><td>Melia Hanoi</td><td>Cửa Nam</td><td>US$109起</td><td>42分/27.0km</td><td class="commute"><span class="offpeak">42分離峰/47.9km</span><span class="peak">~77分尖峰</span></td><td>2分/1.2km</td><td>20F The Level</td><td>1999</td><td>~32㎡</td></tr>
+          <tr class="group-row"><td colspan="10">獨立酒店</td></tr>
+          <tr><td class="rank">16</td><td>Hôtel du Parc Hanoï</td><td>Hai Bà Trưng</td><td>US$76起</td><td>44分/29.5km</td><td class="commute"><span class="offpeak">39分離峰/46.4km(最近)</span><span class="peak">~74分尖峰(最快)</span></td><td>4分/2.4km</td><td>無確認的酒廊</td><td>1998</td><td>DLX 34–36㎡</td></tr>
+          <tr><td class="rank">17</td><td>Apricot Hotel</td><td>Hoàn Kiếm</td><td>US$109–118起</td><td>41分/26.6km</td><td class="commute"><span class="offpeak">42分離峰/48.2km</span><span class="peak">~77分尖峰</span></td><td>1分/0.8km</td><td>無(精品獨立)</td><td>2015</td><td>Sketch 25㎡</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="transport-note"><b>✓ = Google地圖實測</b>(使用者親自查詢,設定2026/7/20週一09:30抵達):#1、#2、#3、#4、#5 這5家是真實區間,其餘12家仍是外推估計,見文末備註。<b>通勤口徑:</b>「飯店→機場」「飯店→工廠」皆為飯店本身車程;「飯店→市中心」以還劍湖/老城區為參考點,一般生活機能參考、非時間關鍵行程,未做尖峰修正。</div>
+
+    <h2>各酒店詳情</h2>
+
+    <h3 class="chain-head">Marriott Bonvoy</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">01</span><h4>JW Marriott Hotel Hanoi</h4></div></div>
+      <div class="hotel-meta">8 Do Duc Duc, Nam Tu Liem District</div>
+      <div class="chip-row"><span class="chip"><b>US$200–265+</b> 起</span><span class="chip danger">工廠尖峰 <b>55–90分✓</b></span><span class="chip">市中心 13分</span><span class="chip">2013年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc5h12000gsjgbdd207D_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/1c/2f/75/beautiful-lobby.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc2g12000dpa7ctzB39E_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2013年11月開業,450間房(395間48㎡基礎房型+55間套房)——基礎房型坪數17家中最大</li>
+        <li>6樓行政酒廊:入住/退房手續、歐陸式早餐、午間點心、下午茶/開胃菜、雞尾酒、非酒精飲料、商務服務、每晚3件燙衣服務</li>
+        <li>住客評論稱之為住過「數一數二」的行政酒廊</li>
+        <li>設施:懸空頂樓泳池、垂直花園、SPA、健身房、多間餐廳</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">02</span><h4>Sheraton Hanoi West</h4></div></div>
+      <div class="hotel-meta">36 Le Duc Tho Street, My Dinh 2 Ward, Nam Tu Liem</div>
+      <div class="chip-row"><span class="chip"><b>US$89–136</b> 起</span><span class="chip danger">工廠尖峰 <b>60–110分✓</b></span><span class="chip">市中心 15分(最遠)</span><span class="chip">2020年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc5412000frpeflbB392_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1ik2t12000sl4p03iBE64_R_500_400_R5.webp" alt="公共空間"><span class="cap">烘焙/熟食區</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1ik2212000shxzcsn4A5A_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>品牌沿革:籌備期曾用名Crowne Plaza West Hanoi → 2020年10月以Hyatt Regency West Hanoi開業(Hyatt河內首店)→ 2024年5月起改為Sheraton Hanoi West</li>
+        <li>目前由萬豪/喜來登營運;OpenStreetMap上仍標示舊名Hyatt Regency,是地圖未更新,非兩棟建築</li>
+        <li>390間房/套房+120間服務式公寓</li>
+        <li>24樓行政酒廊,提供餐飲;2025年9月、3月住客評論都稱讚房間乾淨寬敞、服務周到</li>
+        <li>基礎房型(Standard/Deluxe/Premier/Club Room)約34㎡(366平方英尺),來源為TravelWeekly的GDS酒店資料,非萬豪官網直接資料</li>
+        <li>設施:室外泳池+泳池吧、24小時健身房、SPA、Market Café、可俯瞰美廷國家體育場的Sky Bar</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">03</span><h4>Sheraton Hanoi Hotel（西湖畔）</h4></div></div>
+      <div class="hotel-meta">K5 Nghi Tam, 11 Xuan Dieu Road, Tay Ho · 與#02是不同的兩間酒店,較舊、位於西湖畔</div>
+      <div class="chip-row"><span class="chip"><b>US$136–274</b> 起</span><span class="chip danger">工廠尖峰 <b>~88分(最慢)</b></span><span class="chip">市中心 7分</span><span class="chip">2004年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc2c12000j2strkc4917_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/40/04/c4/lobby-lounge--v11777464.jpg" alt="大廳酒廊"><span class="cap">大廳酒廊</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc6c12000sju5yctE4CC_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2004年3月於西湖畔開業,299間房(含17間套房)</li>
+        <li>基礎房型Standard Room 37㎡(Executive Suite 67㎡、Club Suite 112–123㎡)</li>
+        <li>17樓Sheraton Club Lounge:免費早餐、下午開胃菜、270度西湖景觀</li>
+        <li>設施:泳池、SPA、健身房、多間餐廳、沿湖庭園</li>
+        <li>是17家中通勤到工廠最慢的一家,但通勤到機場數一數二快</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">IHG One Rewards</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">04</span><h4>InterContinental Hanoi Landmark72</h4></div></div>
+      <div class="hotel-meta">Keangnam Hanoi Landmark Tower, Cau Giay</div>
+      <div class="chip-row"><span class="chip"><b>US$103</b> 起</span><span class="chip danger">工廠尖峰 <b>~84分</b></span><span class="chip">市中心 13分</span><span class="chip">2017年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/220l0z000000mq624341B_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0231v12000slsqqpa4A6F_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc2j12000bzfuqiv8064_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2017年開業,位於Keangnam大樓62–71樓</li>
+        <li>71樓Club InterContinental Lounge,號稱東南亞規模最大的行政酒廊</li>
+        <li>基礎房型Classic Room 46㎡</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">05</span><h4>InterContinental Hanoi Westlake</h4></div></div>
+      <div class="hotel-meta">5 Tu Hoa Street, Tay Ho</div>
+      <div class="chip-row"><span class="chip"><b>US$104</b> 起</span><span class="chip danger">工廠尖峰 <b>~87分</b></span><span class="chip">市中心 7分</span><span class="chip">2007年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0205q12000569estw4922_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0223q120009c6nnxw1B9A_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0204x12000a6s7zm399EE_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2007年12月開業(IHG集團在越南首店),低樓層別墅式建築</li>
+        <li>地面樓層Club InterContinental:全天飲品、自助+單點早餐、晚間雞尾酒</li>
+        <li>基礎房型Classic Room 43㎡</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">Accor（Sofitel Legend / MGallery / Grand Mercure / Novotel / Mövenpick / Pullman）</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">06</span><h4>Novotel Hanoi Thai Ha</h4></div></div>
+      <div class="hotel-meta">2 Thai Ha Street, Trung Liet Ward, Dong Da District</div>
+      <div class="chip-row"><span class="chip"><b>US$81–83</b> 起</span><span class="chip hl">工廠尖峰 <b>~76分</b></span><span class="chip">市中心 7分</span><span class="chip">2020年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc4v12000m5uiuvy422D_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0232b224x988aku418D81_W_1280_853_R5_Q70.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/02301224x9a1sj1ywB099_W_1280_853_R5_Q70.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2020年2月開業,27層樓、343間房,5–26樓為客房樓層</li>
+        <li>基礎房型Superior Room 31㎡(Deluxe 48㎡、Executive Apartment 55㎡、Suite 81㎡)</li>
+        <li>26樓Premier Lounge(限Executive Apartment/Suite住客):全天候國際飲品、雞尾酒與點心;住客特別稱讚Happy Hour</li>
+        <li>設施:6樓室外泳池、健身房、Food Exchange Restaurant、Gourmet Bar、兒童俱樂部、商務中心</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">07</span><h4>Mövenpick Hotel Hanoi Centre</h4></div></div>
+      <div class="hotel-meta">83A Ly Thuong Kiet Street, Cua Nam ward</div>
+      <div class="chip-row"><span class="chip hl"><b>US$51–70</b> 起 · 全組最低</span><span class="chip hl">工廠尖峰 <b>~76分</b></span><span class="chip">市中心 3分</span><span class="chip">1997年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc1s12000g9suu4t785D_R_600_360_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/02/c6/b7/a3/moevenpick-hotel-hanoi.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/f1/e7/0e/guest-room.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1997年開業,2023年整修完成,法國區內155間房/套房</li>
+        <li>基礎房型Classic Room 32㎡(Executive Suite King 62㎡)</li>
+        <li>4樓行政酒廊:全套早餐、下午茶、晚間酒水與餐點——住客評論列為住宿亮點</li>
+        <li>設施:邁阿密風格頂樓"Cabana Club"室外泳池、Kinetic健身房、三溫暖、Mangosteen Restaurant、Ma Van餐酒館</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">08</span><h4>Grand Mercure Hanoi</h4></div></div>
+      <div class="hotel-meta">9 Cat Linh, Quoc Tu Giam, Dong Da district</div>
+      <div class="chip-row"><span class="chip">~<b>US$100</b> 起</span><span class="chip hl">工廠尖峰 <b>~77分</b></span><span class="chip">市中心 5分</span><span class="chip">2023年開業(全組最新)</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0223t12000bfrqywk17B5_W_960_540_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0223512000bkfzdal683D_R_600_360_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc4b12000aqy3gjgFC9C_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2023年3月開業,Accor集團"Grand Mercure"品牌在河內首店,集團在首都第8家酒店,鄰近文廟</li>
+        <li>181間房,房型27–116㎡</li>
+        <li>15樓行政酒廊(頂樓):早餐06:00–10:30、晚間雞尾酒點心、全天咖啡茶飲;住客特別稱讚城市景觀與服務</li>
+        <li>設施:頂樓玻璃帷幕泳池+Sky Bar、SPA、三溫暖、健身房、兩間餐廳</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">09</span><h4>Hotel de l'Opera Hanoi - MGallery</h4></div></div>
+      <div class="hotel-meta">29 Trang Tien Street, Hoan Kiem</div>
+      <div class="chip-row"><span class="chip"><b>US$105</b> 起</span><span class="chip hl">工廠尖峰 <b>~78分</b></span><span class="chip hl">市中心 1分(全組最近)</span><span class="chip">2011年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0230u224x99w64vjn18C4_W_1280_853_R5_Q70.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0231r224x99rsyhez9CB3_W_1280_853_R5_Q70.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0232n12000s3nxrwl1D38_W_1280_853_R5_Q70.png" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2011年開業,占用20世紀初法國殖民建築(原Dan Chu Hotel/Villa),步行3分鐘可達河內歌劇院</li>
+        <li>107間房,基礎房型Deluxe/Superior Room 30㎡(Grand Deluxe/Executive Room 35㎡)</li>
+        <li>沒有行政酒廊(查證結論,見文末備註)</li>
+        <li>設施:河內唯一3樓半戶外恆溫泳池(可眺望歌劇院)、3樓SPA、健身房、以苦艾酒雞尾酒聞名的La Fée Verte酒吧</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">10</span><h4>Sofitel Legend Metropole Hanoi</h4></div></div>
+      <div class="hotel-meta">15 Ngo Quyen Street, Hoan Kiem</div>
+      <div class="chip-row"><span class="chip"><b>US$193</b> 起</span><span class="chip hl">工廠尖峰 <b>~78分</b></span><span class="chip hl">市中心 1分(全組最近)</span><span class="chip">1901年開業(全組最老)</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc3v12000sxluzkwA45F_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc5z12000l2a7en4CB41_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc3v12000stn89haEC65_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1901年開業,2009年起成為首家"Sofitel Legend"品牌酒店</li>
+        <li>7樓Opera Wing的Metropole Club Lounge:早餐、下午茶15:00–17:00、雞尾酒17:30–19:30、24小時管家服務</li>
+        <li>基礎房型Luxury Room 32㎡</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">11</span><h4>Pullman Hanoi</h4></div></div>
+      <div class="hotel-meta">40 Cat Linh Street, Dong Da</div>
+      <div class="chip-row"><span class="chip"><b>US$76</b> 起</span><span class="chip hl">工廠尖峰 <b>~79分</b></span><span class="chip">市中心 6分</span><span class="chip">1997年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/220k0s000000hwk1r7B3D_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/220c1b000001aqp060A9C_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/02226120009c3axkf6839_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1997年開業</li>
+        <li>10樓行政酒廊</li>
+        <li>基礎房型Superior Room 32㎡</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">Lotte Hotels &amp; Resorts</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">12</span><h4>Lotte Hotel Hanoi</h4></div></div>
+      <div class="hotel-meta">54 Lieu Giai Street, Ba Dinh</div>
+      <div class="chip-row"><span class="chip">~<b>US$87</b> 起</span><span class="chip hl">工廠尖峰 <b>~79分</b></span><span class="chip">市中心 8分</span><span class="chip">2014年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0200g12000a0q3lpl3748_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://media-cdn.tripadvisor.com/media/photo-o/0b/42/46/2a/ground-lobby--v11782245.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://media-cdn.tripadvisor.com/media/photo-o/07/0f/b7/a1/lotte-hotel-hanoi.jpg" alt="客房(Deluxe King)"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>65層樓的Lotte Center Hanoi大樓2014年9月完工,酒店位於高樓層</li>
+        <li>318間房,基礎房型Deluxe Twin 42–44㎡(最大到Premier Suite 147㎡)</li>
+        <li>約59樓Club Lounge:自助早餐、下午高茶、晚間雞尾酒時段含熱食,2024–2025評論持續正面</li>
+        <li>設施:室內頂樓泳池、Evian Spa、健身房、多間餐廳、直通樂天百貨/超市</li>
+        <li>原始清單截圖顯示「暫無實拍圖」——查證後確認此說法只對trip.com自己的房型圖庫成立,已改用Tripadvisor驗證過的真實照片</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">Wyndham Hotels &amp; Resorts（Dolce）</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">13</span><h4>Dolce by Wyndham Hanoi Golden Lake</h4></div></div>
+      <div class="hotel-meta">B7 Giang Vo, Ba Dinh District · 亞洲首家Dolce品牌酒店</div>
+      <div class="chip-row"><span class="chip"><b>US$73–74</b> 起</span><span class="chip hl">工廠尖峰 <b>~79分</b></span><span class="chip">市中心 7分</span><span class="chip">約2022年營運中</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0230v12000sdayapeAAAD_W_1280_853_R5_Q70.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0234s224x98xdk7n977E9_W_1280_853_R5_Q70.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/02351224x99syrfx5AC8F_W_1280_853_R5_Q70.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>342間房,以"24K金"為設計主題</li>
+        <li>基礎房型Golden Deluxe 45–48㎡(King或Twin;Golden Suite 78㎡)</li>
+        <li>12樓行政酒廊,06:00–22:30開放,早餐+17:30–24:00下午茶/雞尾酒時段;2025年4月評論特別稱讚酒廊服務「最好」</li>
+        <li>設施:頂樓24K金主題無邊際泳池、Golden Spa、健身房、Majesty Fine Dining、Golden Lake Palace中餐廳、F29 Restaurant &amp; Bar、27樓24K Bar</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">Pan Pacific Hotels Group</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">14</span><h4>Pan Pacific Hanoi</h4></div></div>
+      <div class="hotel-meta">1 Thanh Nien Road, Tay Ho</div>
+      <div class="chip-row"><span class="chip"><b>US$85</b> 起</span><span class="chip hl">工廠尖峰 <b>~85分</b></span><span class="chip warn">機場僅23分(全組最快)</span><span class="chip">1998年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0224x1200084ahfgyDFAE_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0232r12000pm77w352A46_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0583v12000srr1nbo249C_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1998年以Meritus Westlake Hanoi開業,曾更名Sofitel Plaza Hanoi,2016年10月起改為Pan Pacific Hanoi</li>
+        <li>17樓Pacific Club Lounge,06:30–22:00開放</li>
+        <li>基礎房型Deluxe Double/Twin 35㎡</li>
+        <li>飯店→機場23分鐘,17家中最快,但工廠通勤排名較後段</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head">Meliá Hotels International</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">15</span><h4>Melia Hanoi</h4></div></div>
+      <div class="hotel-meta">44B Ly Thuong Kiet Street, Hoan Kiem</div>
+      <div class="chip-row"><span class="chip"><b>US$109</b> 起</span><span class="chip hl">工廠尖峰 <b>~77分</b></span><span class="chip">市中心 2分</span><span class="chip">1999年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc3e12000dnb9l24B808_R_500_400_R5.webp" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/1mc6d12000cx6m77i110F_R_500_400_R5.webp" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0221h12000l1x1zxo385C_R_500_400_R5.webp" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1999年開業</li>
+        <li>20樓The Level Lounge行政酒廊</li>
+        <li>基礎房型約32㎡(未經官網驗證,melia.com官網封鎖自動存取)</li>
+      </ul>
+    </div>
+
+    <h3 class="chain-head independent">獨立酒店</h3>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">16</span><h4>Hôtel du Parc Hanoï</h4></div></div>
+      <div class="hotel-meta">84 Tran Nhan Tong Street, Hai Ba Trung District · 原Hotel Nikko Hanoi（JAL Hotels/Nikko Hotels International）</div>
+      <div class="chip-row"><span class="chip"><b>US$76</b> 起</span><span class="chip hl">工廠尖峰 <b>~74分(全組最快)</b></span><span class="chip">市中心 4分</span><span class="chip">1998年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/220a1f000001g45wo75B1_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/200715000000y7nkwBBC2_R_960_660_R5_D.jpg" alt="大廳/酒吧"><span class="cap">大廳/酒吧</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0206r120008hfrpp5034F_R_960_660_R5_D.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>1998年以Hotel Nikko Hanoi開業,2019年整修後現已獨立經營</li>
+        <li>16層樓、255間房</li>
+        <li>基礎房型DLX Room 34–36㎡(Grand DLX 36㎡、Parkview DLX/Executive 48㎡)</li>
+        <li>餐飲:Voyage(大廳、全天候國際料理)、Azabu(日式)、Le Salon(酒吧,1F,08:00–24:00)、The Cakeshop</li>
+        <li>沒有行政酒廊,"Executive"僅為房型名稱(查證結論,見文末備註)</li>
+        <li>設施:室外泳池、健身房、SPA、9間會議室</li>
+        <li>17家中通勤到工廠最快</li>
+      </ul>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-title-row"><div class="hotel-title"><span class="hotel-num">17</span><h4>Apricot Hotel</h4></div></div>
+      <div class="hotel-meta">136 Hang Trong Street, Hoan Kiem · 獨立藝術主題精品酒店,不隸屬任何連鎖會員計畫</div>
+      <div class="chip-row"><span class="chip"><b>US$109–118</b> 起</span><span class="chip hl">工廠尖峰 <b>~77分</b></span><span class="chip">市中心 1分</span><span class="chip">2015年開業</span></div>
+      <div class="photo-row">
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/220l0f0000007masvF9C8_R_960_660_R5_D.jpg" alt="外觀"><span class="cap">外觀</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/0234x224x98vtvvmg2110_W_1280_853_R5_Q70.jpg" alt="大廳"><span class="cap">大廳</span></div>
+        <div class="photo-fig"><img src="https://ak-d.tripcdn.com/images/02322224x98vv6624E8EC_W_1280_853_R5_Q70.jpg" alt="客房"><span class="cap">客房</span></div>
+      </div>
+      <ul class="hotel-desc">
+        <li>2015年4月開業,前身是1920年代地標Phú Gia Hotel原址重建的10層樓建築,步行2分鐘可達還劍湖</li>
+        <li>全館使用越南本地藝術家作品</li>
+        <li>基礎房型Sketch Room 25㎡(Canvas 30–32㎡、Gallery/Gallery Garden 50㎡、Studio 56㎡)</li>
+        <li>沒有行政酒廊——1樓A'telier是對所有房客開放的公共沙龍,不限房型</li>
+        <li>設施:頂樓One36酒吧(俯瞰還劍湖的小型泳池)、Spa L'Art、L'Artiste、Palette</li>
+      </ul>
+    </div>
+
+    <h2>已排除清單</h2>
+    <div class="table-scroll">
+      <table class="excl-table">
+        <thead><tr><th>酒店</th><th>排除理由</th></tr></thead>
+        <tbody>
+          <tr><td>Melia Vinpearl Phu Ly</td><td>位於Phu Ly市(工廠所在的Ha Nam省),不在河內市區</td></tr>
+          <tr><td>Vinpearl Hotel Bắc Ninh</td><td>位於北寧省,河內以北,與工廠方向相反</td></tr>
+          <tr><td>Mandala Hotel &amp; Spa Bac Ninh</td><td>同上,北寧省</td></tr>
+          <tr><td>Crowne Plaza Vinh Yen City Centre</td><td>位於永安市(永富省),河內西北方,方向不符</td></tr>
+          <tr><td>Modena by Fraser Vinh Yen</td><td>同上,永富省,且屬服務式公寓</td></tr>
+          <tr><td>Hotel de la Coupole - MGallery(沙壩)</td><td>位於老街省沙壩,距河內約300公里</td></tr>
+          <tr><td>Four Points by Sheraton Lang Son</td><td>位於諒山(近中越邊境),距河內約150公里</td></tr>
+          <tr><td>Fraser Suites / Fraser Residence Hanoi</td><td>服務式公寓,非本次比較的正規酒店類別</td></tr>
+          <tr><td>Somerset Grand / Somerset West Point Hanoi</td><td>同上,服務式公寓</td></tr>
+          <tr><td>Mövenpick Living West Hanoi</td><td>同上,服務式公寓(與#07 Mövenpick Hotel Hanoi Centre是不同物件)</td></tr>
+          <tr><td>Capella Hanoi</td><td>換算後約US$556/晚,超過400鎂預算</td></tr>
+          <tr><td>Fairmont Hanoi</td><td>換算後約US$493/晚,超過400鎂預算</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>資料來源與限制</h2>
+    <ul class="sources">
+      <li>工廠位置(Đồng Văn III工業區)地址在Digitimes、Panjiva等產業媒體上有完整記載;通勤時間用OpenStreetMap定位工業區座標,精確度到工業區範圍內(約1公里),非工廠實際大門座標。</li>
+      <li><b>早晨尖峰修正</b>:法雲–求艽高速公路2024年實際車流量約每日8.5萬輛,超過設計容量5.54萬輛(約154%);TomTom河內交通指數顯示晨間尖峰(7:30–9:30)均速僅31.4 km/h,市區幹道尖峰車速甚至只有離峰的1/3左右。表格「尖峰」欄位依酒店所在區域外推(市中心/南側+35分、西側/北側Tây Hồ·Cầu Giấy·Nam Từ Liêm+40分),不是逐一飯店重新查即時路況算出來的精確值,建議訂房前用Google Maps/Grab在預計出發時段當場核對。</li>
+      <li>飯店→市中心以還劍湖/老城區為參考點,OSRM離峰估算,非時間關鍵行程未做尖峰修正。#9 Hotel de l'Opera、#10 Sofitel Metropole離市中心最近(1分鐘);#02 Sheraton Hanoi West最遠(15分鐘)。</li>
+      <li>6家房價(Melia、Sofitel Metropole、Pullman、洲際Landmark72、泛太平洋、洲際西湖)為另外用trip.com補查的即時牌價(2026-07-23查詢),會隨日期/房型/促銷波動,訂房前請重新確認。</li>
+      <li>#9 Hotel de l'Opera、#16 Hôtel du Parc 的行政酒廊都用多種不同來源類型查證過(官方設施清單、酒店餐廳頁面、第三方河內酒廊評比文章),結論是沒有確認存在的行政酒廊。</li>
+      <li>#15 Melia Hanoi房型坪數(~32㎡)未經官網驗證(melia.com官網封鎖自動存取)。#02 Sheraton Hanoi West房型坪數約34㎡,來源為TravelWeekly的GDS酒店資料,非萬豪官網直接資料(marriott.com/booking.com/agoda.com查詢當下都被擋),列為次要佐證。</li>
+      <li><b>✓ 5家已有Google地圖實測尖峰時段</b>(使用者親自查詢,設定2026/7/20週一09:30抵達):#1 JW Marriott(55–90分,建議08:00出發)、#2 Sheraton Hanoi West(60–110分,建議07:40出發)、#3 Sheraton Hanoi Hotel(60–110分,建議07:40出發)、#4 洲際Landmark72(55–100分,建議07:50出發)、#5 洲際西湖(60–110分,建議07:40出發)。其餘12家仍是依區域外推的估計值(市中心/南側+35分、西側/北側+40分),嘗試過逐一飯店查Google地圖URL、逐家搜尋、增加代表點位都拿不到更精確數字(Google地圖尖峰模型是登入後才載入的前端資料,靜態抓取拿不到),實際區間可能比外推值更寬,訂房前務必用Google Maps/Grab當場查詢確認。</li>
+      <li>Lotte Hotel Hanoi的「客房」「公共空間」照片原本都貼錯(分別是窗外夜景、Royal Suite私人客廳),使用者發現後已重新查證換成驗證過的Deluxe King客房與地面樓大廳照片。</li>
+      <li>#02 Sheraton Hanoi West品牌沿革(Crowne Plaza籌備名→Hyatt Regency 2020→Sheraton 2024)經多個獨立來源交叉確認,是同一棟建築兩度改變品牌,不是兩棟不同建物。</li>
+      <li>所有17家酒店的51張照片都已個別下載並實際檢視過再收錄,過程中退回的錯誤照片包括:trip.com灰色預設圖(Lotte)、浴室特寫誤標為客房(多家)、嬰兒床特寫、復活節氣球佈置誤標為大廳。整理過程中也曾誤把其他案子/其他酒店的照片複製貼錯到6家酒店,發現後已全數移除重新查證替換。</li>
+      <li>「飯店→機場」「飯店→工廠」皆為飯店本身車程,非機場↔工廠的直達車程。</li>
+      <li>集團排序依使用者指定偏好(Marriott → IHG → Accor → Lotte → Wyndham → Pan Pacific → Meliá → 獨立),同集團內再依飯店→工廠通勤時間排序。</li>
+    </ul>
+
+  </div>
+</body>
+</html>
